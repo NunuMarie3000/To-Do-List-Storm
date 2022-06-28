@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <title>To Do by Stormy</title>
+</head>
+<body>
+        <div id="main-container">
+            <div id="title">ToDo <br>By Stormy</div>
+            <form id="add-todo-item-form" action="./app.js" target="_blank" method="post">
+                <label for="addMe"></label>
+                <input type="text" name="addMe" id="addMe" placeholder="Add New Item...">
+                
+                <label for="submit-button"></label>
+                <input type="submit" value="Add">
+            </form>
+
+            <div id="added-list-container"></div>
+
+            <div id="instructions-container">
+                <p>Right Click to Cross Out <br>Left Click To Delete</p>
+            </div>
+        </div>
+
+    <footer>&copy;StormyWeatherCreations, 2022</footer>
+    <script src="./app.js"></script>
+</body>
+</html>
