@@ -2,8 +2,18 @@
     text-decoration: line-through;
 }
 
+ul{
+    display: flex;
+    flex-direction: column;
+
+}
+
 li{
     list-style: none;
+    font-size: large;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
 }
 
 html{

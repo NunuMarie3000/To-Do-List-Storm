@@ -12,6 +12,12 @@ let addMe = document.getElementById('addMe');
 let printNewItemHere = document.getElementById('added-list-container');
 //create ul for new items to be placed in
 let unorderedTaskList = document.createElement('ul');
+//get submit button
+let submitButton = document.getElementById('submit-button');
+//i want to strikethrough list item when its right clicked...would i add an event listener inside the createNewListItem function? use the right click as a toggle between strike through and not striked through
+//click event for right click, oncontextmenu for left click
+//strike through i can do with .strike() method, or not, apparently this method is deprecated
+
 
 //create function to print new todo item to 
 function createNewListItem(e){
@@ -22,28 +28,36 @@ function createNewListItem(e){
     //create li
     let newItem = document.createElement('li');
     newItem.textContent = addMe;
-    //add li to the ul
+
+    //add li to ul
     unorderedTaskList.append(newItem);
     //add ul to div
     printNewItemHere.append(unorderedTaskList);
+
+    //add event listener to the newItem added
+    //when its right clicked, it toggles between adding strike-through class to it or not
+    newItem.addEventListener('click', function(){
+        newItem.classList.toggle('strike-through');
+    })
+
+    //add event listener to newItem added
+    //when its left clicked, it deletes the element
+    newItem.addEventListener('contextmenu', function(e){
+        //i don't want the context menu to pop up when the user left clicks
+        e.preventDefault();
+        //removeChild only removes the child element from the node, so i have to target the parent, which is unorderedTaskList
+        unorderedTaskList.removeChild(newItem);
+    })
+    
     //i wanna reset the form after each new item is added
     todoForm.reset();
-
-    //create function that denotes a completed task
-    function taskCompleted(){
-        newItem.setAttribute('class', 'strike-through');
-    }
-    function taskUnCompleted(){
-        newItem.removeAttribute('class', 'strike-through');
-    }
-    newItem.addEventListener('click', function(){
-        taskCompleted();
-        newItem.addEventListener('click', taskUnCompleted);
-    })
 }
 //add event listener 
 todoForm.addEventListener('submit', createNewListItem);
 
-//i want to strikethrough list item when its right clicked...would i add an event listener inside the createNewListItem function? use the right click as a toggle between strike through and not striked through
-//click event for right click, oncontextmenu for left click
-//strike through i can do with .strike() method, or not, apparently this method is deprecated
+//i need more sense on my local storage logic...
+// todoForm.addEventListener('submit', function(){
+//     localStorage.setItem('ToDo List', `${unorderedTaskList.textContent}`);
+// })
+
+//you lose all your info if the site is refreshed...maybe save the results to localStorage when I print it so if the user accidentally refreshes, it saves their info?
