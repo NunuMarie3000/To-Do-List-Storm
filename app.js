@@ -32,15 +32,11 @@ function loadTasks(){
     todoObjects.forEach(todoObject => {
         //create new li element
         let list = document.createElement('li');
-        //gets the name of the todoObject and prints it
         list.textContent = `${todoObject.text}`;
         unorderedTaskList.append(list);
     })
 }
-// window.addEventListener('load', loadTasks);
-window.onload = function(){
-    loadTasks();
-};
+window.addEventListener('load', loadTasks);
 
 //create function to print new todo item to 
 function createNewListItem(e){
