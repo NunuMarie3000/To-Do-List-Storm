@@ -87,7 +87,6 @@ function addTodoItem(text){
     todoItemArray.push(todo);
     localStorage.setItem('todo', JSON.stringify(todoItemArray));
 
-    //when the user completes it, i need to set that false to true
 }
 
 
