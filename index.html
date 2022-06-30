@@ -12,23 +12,26 @@
 </head>
 <body>
         <div id="main-container">
-            <div id="title">ToDo <br>By Stormy</div>
-            <form id="add-todo-item-form" action="./app.js" target="_blank" method="post">
-                <label for="addMe"></label>
-                <input type="text" name="addMe" id="addMe" placeholder="Add New Item...">
-                
-                <label for="submit-button"></label>
-                <input id="submit-button" type="submit" value="Add">
-            </form>
+            <div id="second-conainer">
+                <div id="title">ToDo</div>
+                <div id="subtitle">By Stormy</div>
+                <form id="add-todo-item-form" action="./app.js" target="_blank" method="post">
+                    <label for="addMe"></label>
+                    <input type="text" name="addMe" id="addMe" placeholder="Add New Item...">
+                    
+                    <label for="submit-button"></label>
+                    <input id="submit-button" type="submit" value="Add">
+                </form>
+    
+                <div id="instructions-container">
+                    <p>Right Click to Cross Out <br>Left Click To Delete</p>
+                </div>
+            </div>
 
             <div id="added-list-container">
                 <ul></ul>
             </div>
-
-            <div id="instructions-container">
-                <p>Right Click to Cross Out <br>Left Click To Delete</p>
-            </div>
-        </div>
+        </div>    
 
     <footer>&copy;StormyWeatherCreations, 2022</footer>
     <script src="./app.js"></script>

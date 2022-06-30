@@ -1,3 +1,7 @@
+#addMe{
+    padding: 1vh;
+}
+
 .strike-through{
     text-decoration: line-through;
 }
@@ -15,6 +19,7 @@ li{
     border-width: 1px;
     border-color: black;
     margin-bottom: 2px;
+    padding: 1vh;
 }
 
 html{
@@ -23,18 +28,36 @@ html{
 }
 
 #main-container{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.92);
     padding: 2vw 10vw 0 10vw;
     display: flex;
+    flex-direction: row;
+    margin: 5vh 10vw 0 10vw;
+    align-items: baseline;
+}
+footer{
+    margin-left: 10vw;
+}
+#second-container{
+    display: flex;
     flex-direction: column;
+
 }
 
 #title{
     padding-top: 5vh;
-    padding-bottom: 5vh;
+    font-size: large;
 }
-
+#subtitle{
+    padding-top: 1vh;
+    padding-bottom: 3vh;
+}
 #instructions-container{
     padding-top: 10vh;
     padding-bottom: 1vh;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#submit-button{
+    cursor: pointer;
 }
