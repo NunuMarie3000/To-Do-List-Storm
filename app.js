@@ -52,9 +52,9 @@ function loadTasks(){
                     }
                 }
             })
-            list.addEventListener('contextmenu', e => {
+            list.addEventListener('dblclick', e => {
                 //i don't want the context menu to pop up when the user left clicks
-                e.preventDefault();
+                // e.preventDefault();
                 //NOTE TO STORMY:
                 //IM TRYING TO REMOVE DELETED ITEM FROM LOCAL STORAGE
                 for(let i=0; i<todoObjects.length; i++){
@@ -139,9 +139,9 @@ function createNewListItem(e){
     
     //add event listener to newItem added
     //when its left clicked, it deletes the element
-    newItem.addEventListener('contextmenu', e => {
+    newItem.addEventListener('dblclick', e => {
         //i don't want the context menu to pop up when the user left clicks
-        e.preventDefault();
+        // e.preventDefault();
         //NOTE TO STORMY:
         //IM TRYING TO REMOVE DELETED ITEM FROM LOCAL STORAGE
         let todoObjects = JSON.parse(localStorage.getItem('todo'));
