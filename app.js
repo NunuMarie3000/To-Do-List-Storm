@@ -29,14 +29,78 @@ function loadTasks(){
     //JSON.parse converts to object from string
     let todoObjects = JSON.parse(localStorage.getItem('todo'));
     //since we turned all local storage tasks into an array, we can iterate through it to print out each one onto the screen, but its still a JSON array and not a regular array
-    todoObjects.forEach(todoObject => {
-        //create new li element
-        let list = document.createElement('li');
-        list.textContent = `${todoObject.text}`;
-        unorderedTaskList.append(list);
-    })
+    if(todoObjects === null || todoObjects === []){
+        console.log('local storage is empty');
+    }else{
+        for(let i=0; i<todoObjects.length; i++){
+            let addThis = todoObjects[i].text;
+            //create new li element
+            let list = document.createElement('li');
+            list.textContent = `${addThis}`;
+            //adding li to ul
+            unorderedTaskList.append(list);
+            printNewItemHere.append(unorderedTaskList);
+
+            list.addEventListener('click', function(){
+                list.classList.toggle('strike-through');
+                for(let i=0; i<todoItemArray.length; i++){
+                    // if(todoItemArray[i].text === addMe && newItem.hasAttribute('strike-through')){
+                    if(todoItemArray[i].text === addThis){
+                        //set completed property to true, then i need to update its value in local storage...
+                        todoItemArray[i].completed = true;
+                        localStorage.setItem(`todo`, JSON.stringify(todoItemArray));
+                    }
+                }
+            })
+            list.addEventListener('contextmenu', e => {
+                //i don't want the context menu to pop up when the user left clicks
+                e.preventDefault();
+                //NOTE TO STORMY:
+                //IM TRYING TO REMOVE DELETED ITEM FROM LOCAL STORAGE
+                for(let i=0; i<todoObjects.length; i++){
+                    if(todoObjects[i].text === list.textContent){
+                        todoObjects.splice(i, 1);
+                        localStorage.setItem('todo', JSON.stringify(todoObjects));
+                    }
+                }
+                // delete todoItemArray.text;
+                // localStorage.setItem('todo', JSON.stringify(todoItemArray));
+                // //removeChild only removes the child element from the newItem, so i have to target the parent, which is unorderedTaskList
+                unorderedTaskList.removeChild(list);
+            })
+        }
+    }
+    
+    // todoObjects.forEach(todoObject => {
+    //     //create new li element
+    //     let list = document.createElement('li');
+    //     list.textContent = `${todoObject.text}`;
+    //     //adding li to ul
+    //     unorderedTaskList.append(list);
+    //})
 }
 window.addEventListener('load', loadTasks);
+
+//i need a way to store each newItem added to todo list, i need to be able to tell if it is completed(true) or not(false).
+//create array to hold all created new todo item objects
+let todoItemArray = [];
+//create constructor function to create new object to hold created new todo items
+//set them to false(not completed) when i create it
+function addTodoItem(text){
+    const todo = {
+        text,
+        completed: false
+    };
+    todoItemArray.push(todo);
+    localStorage.setItem('todo', JSON.stringify(todoItemArray));
+    //NOTE TO STORMY:
+    //TESTING TO SEE IF I CAN STORE EACH INDIVIDUAL OBJECT ONE AT A TIME
+    // todoItemArray.push(todo);
+    // for(let i=0; i<todoItemArray.length; i++){
+    //     localStorage.setItem(`${text}`, JSON.stringify(todoItemArray[i]));
+    //}
+}
+
 
 //create function to print new todo item to 
 function createNewListItem(e){
@@ -58,37 +122,45 @@ function createNewListItem(e){
     //when its right clicked, it toggles between adding strike-through class to it or not
     newItem.addEventListener('click', function(){
         newItem.classList.toggle('strike-through');
+        //i need to edit the local storage objects if the item itself it completed or not, the text i pass into the addTodoItem function is gonna be the same as the unorderedTaskList.lastElementChild.textContent, which is addMe(from createNewListItem function)
+        //if i iterate through the array holding the objects and check each one against the text being clicked, i can then update that object's completed property
+        //i could create a function to do this, but how would i be able to access the info? idk, just start ig
+        //iterate through todoItemArray, which holds all objects
+        //needs to be attached wherever i cross off items
+        for(let i=0; i<todoItemArray.length; i++){
+            // if(todoItemArray[i].text === addMe && newItem.hasAttribute('strike-through')){
+            if(todoItemArray[i].text === addMe){
+                //set completed property to true, then i need to update its value in local storage...
+                todoItemArray[i].completed = true;
+                localStorage.setItem(`todo`, JSON.stringify(todoItemArray));
+            }
+        }
     })
-
+    
     //add event listener to newItem added
     //when its left clicked, it deletes the element
     newItem.addEventListener('contextmenu', e => {
         //i don't want the context menu to pop up when the user left clicks
         e.preventDefault();
-        //removeChild only removes the child element from the newItem, so i have to target the parent, which is unorderedTaskList
+        //NOTE TO STORMY:
+        //IM TRYING TO REMOVE DELETED ITEM FROM LOCAL STORAGE
+        let todoObjects = JSON.parse(localStorage.getItem('todo'));
+        for(let i=0; i<todoObjects.length; i++){
+            if(todoObjects[i].text === newItem.textContent){
+                todoObjects.splice(i, 1);
+                localStorage.setItem('todo', JSON.stringify(todoObjects));
+            }
+        }
+
+        // delete todoItemArray.text;
+        // localStorage.setItem('todo', JSON.stringify(todoItemArray));
+        // //removeChild only removes the child element from the newItem, so i have to target the parent, which is unorderedTaskList
         unorderedTaskList.removeChild(newItem);
+
     })
     //i wanna reset the form after each new item is added
     todoForm.reset();
 }
-
-//i need a way to store each newItem added to todo list, i need to be able to tell if it is completed(true) or not(false).
-//create array to hold all created new todo item objects
-let todoItemArray = [];
-
-//create constructor function to create new object to hold created new todo items
-//set them to false(not completed) when i create it
-function addTodoItem(text){
-    const todo = {
-        text,
-        completed: false
-    };
-    //add each new todo object to todoItemArray
-    todoItemArray.push(todo);
-    localStorage.setItem('todo', JSON.stringify(todoItemArray));
-
-}
-
 
 //add event listener to add each new created item to the constructor function so i can push to array
 todoForm.addEventListener('submit', e => {
@@ -97,21 +169,3 @@ todoForm.addEventListener('submit', e => {
     //grabs the text content of the last element of the ul, which is whatever li element was created last
     addTodoItem(unorderedTaskList.lastElementChild.textContent);
 });
-
-
-//you lose all your info if the site is refreshed...maybe save the results to localStorage when I print it so if the user accidentally refreshes, it saves their info?
-//i need more sense on my local storage logic...
-// todoForm.addEventListener('submit', function(){
-//     localStorage.setItem('ToDo List', `${unorderedTaskList.textContent}`);
-// })
-
-//when the user submits the form, adding a new item, I want that item added to local storage
-//localStorage.setItem('key', 'value');
-
-//if the item is crossed off, i need something that shows that the item is still there, but not active at the moment
-
-//if the item is deleted, i need to remove it from local storage
-//localStorage.removeItem('key');
-
-
-//
